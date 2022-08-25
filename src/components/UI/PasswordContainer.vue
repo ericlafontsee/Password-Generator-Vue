@@ -1,7 +1,7 @@
 <template>
   <dialog open id="passwordContainer">
-    <password-output v-if="inputisInvalid"></password-output>
-    <form @submit.prevent="submitData" v-if="!inputisInvalid">
+    <password-output v-if="userPasswordLength > 0"></password-output>
+    <form @submit.prevent="submitData" v-if="userPasswordLength === 0">
       <div class="form-control">
         <label for="passwordLength"
           >How long do you want your password to be?</label
@@ -26,7 +26,6 @@ export default {
   },
   data() {
     return {
-      inputIsInvalid: true,
       userPasswordLength: 0,
     };
   },
