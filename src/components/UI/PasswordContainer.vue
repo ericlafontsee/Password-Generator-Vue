@@ -2,7 +2,10 @@
   <div id="passwordContainer">
     <password-output
       :password="password"
-      v-if="userPasswordLength > 0" @close="clearPassword">
+      v-if="userPasswordLength > 0"
+      @close="clearPassword"
+      @save="savePassword"
+    >
     </password-output>
     <form @submit.prevent="generatePassword" v-if="userPasswordLength === 0">
       <div class="form-control">
@@ -31,6 +34,17 @@ export default {
     return {
       userPasswordLength: 0,
       password: '',
+      savedPasswords: [
+        {
+          id: 'test',
+          password: 'lkjahsdf',
+        },
+      ],
+    };
+  },
+  provide() {
+    return {
+      saved: this.savedPasswords,
     };
   },
   methods: {
@@ -45,9 +59,17 @@ export default {
       }
       return;
     },
-    clearPassword(){
+    clearPassword() {
       this.userPasswordLength = 0;
-    }
+    },
+    savePassword() {
+      const newPassword = {
+        id: new Date().toISOString(),
+        password: this.password,
+      };
+      this.savedPasswords.push(newPassword);
+      console.log(this.savedPasswords);
+    },
   },
 };
 </script>
@@ -80,7 +102,7 @@ input:focus,
 textarea:focus {
   outline: none;
   border-color: #eee;
-  background-color: #eee  ;
+  background-color: #eee;
 }
 
 .form-control {
