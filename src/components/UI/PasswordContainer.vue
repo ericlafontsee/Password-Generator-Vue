@@ -1,9 +1,9 @@
 <template>
-  <dialog open id="passwordContainer">
+  <div id="passwordContainer">
     <password-output
       :password="password"
-      v-if="userPasswordLength > 0"
-    ></password-output>
+      v-if="userPasswordLength > 0" @close="clearPassword">
+    </password-output>
     <form @submit.prevent="generatePassword" v-if="userPasswordLength === 0">
       <div class="form-control">
         <label for="passwordLength"
@@ -18,7 +18,7 @@
       </div>
       <button type="submit">Generate Password</button>
     </form>
-  </dialog>
+  </div>
 </template>
 <script>
 import PasswordOutput from './PasswordOutput.vue';
@@ -45,6 +45,9 @@ export default {
       }
       return;
     },
+    clearPassword(){
+      this.userPasswordLength = 0;
+    }
   },
 };
 </script>
@@ -57,5 +60,30 @@ export default {
   padding: 1rem;
   margin: 2rem auto;
   max-width: 40rem;
+}
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  padding: 0.15rem;
+  border: 1px solid #ccc;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #eee;
+  background-color: #eee  ;
+}
+
+.form-control {
+  margin: 1rem 0;
 }
 </style>
