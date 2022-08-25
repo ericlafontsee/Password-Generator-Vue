@@ -1,5 +1,5 @@
 <template>
-<h2>yo</h2>
+<h2>Password Test</h2>
 </template>
 
 

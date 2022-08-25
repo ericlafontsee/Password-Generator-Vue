@@ -1,17 +1,41 @@
 <template>
   <dialog open id="passwordContainer">
-    <password-output></password-output>
-    <base-dialog></base-dialog>
+    <password-output v-if="inputisInvalid"></password-output>
+    <form @submit.prevent="submitData" v-if="!inputisInvalid">
+      <div class="form-control">
+        <label for="passwordLength"
+          >How long do you want your password to be?</label
+        >
+        <input
+          id="passwordLength"
+          name="passwordLength"
+          type="text"
+          ref="passwordLengthInput"
+        />
+      </div>
+      <button type="submit">Generate Password</button>
+    </form>
   </dialog>
 </template>
 <script>
 import PasswordOutput from './PasswordOutput.vue';
-import BaseDialog from './BaseDialog.vue';
 
 export default {
   components: {
     PasswordOutput,
-    BaseDialog,
+  },
+  data() {
+    return {
+      inputIsInvalid: true,
+      userPasswordLength: 0,
+    };
+  },
+  methods: {
+    submitData() {
+      this.userPasswordLength = this.$refs.passwordLengthInput.value;
+      this.inputIsInvalid = true;
+      return;
+    },
   },
 };
 </script>
