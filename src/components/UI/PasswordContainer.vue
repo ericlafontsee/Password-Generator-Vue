@@ -1,25 +1,28 @@
 <template>
-<div id="passwordContainer">
-    <PasswordOutput></PasswordOutput>
-</div>
+  <dialog open id="passwordContainer">
+    <password-output></password-output>
+    <base-dialog></base-dialog>
+  </dialog>
 </template>
 <script>
 import PasswordOutput from './PasswordOutput.vue';
+import BaseDialog from './BaseDialog.vue';
 
 export default {
   components: {
-    PasswordOutput
-  }
+    PasswordOutput,
+    BaseDialog,
+  },
 };
-
 </script>
 
 <style scoped>
-#passwordContainer{
-    background: #ededed;
-    border-radius: 2%;
-    box-shadow: 3px 4px 2px 1px rgba(0, 0, 0, .2);
-    border: 1px solid black;
-    padding: 20px;
+#passwordContainer {
+  box-shadow: 3px 4px 2px 1px rgba(0, 0, 0, 0.2);
+  border: 1px solid black;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 2rem auto;
+  max-width: 40rem;
 }
 </style>
