@@ -1,11 +1,11 @@
 <template>
-<h2>Password Test</h2>
+<h2>{{ password }}</h2>
 </template>
 
 
 <script>
 export default{
-    
+    props: ['password']
 }
 
 </script>

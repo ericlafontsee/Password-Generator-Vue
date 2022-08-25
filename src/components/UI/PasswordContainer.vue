@@ -1,7 +1,10 @@
 <template>
   <dialog open id="passwordContainer">
-    <password-output v-if="userPasswordLength > 0"></password-output>
-    <form @submit.prevent="submitData" v-if="userPasswordLength === 0">
+    <password-output
+      :password="password"
+      v-if="userPasswordLength > 0"
+    ></password-output>
+    <form @submit.prevent="generatePassword" v-if="userPasswordLength === 0">
       <div class="form-control">
         <label for="passwordLength"
           >How long do you want your password to be?</label
@@ -27,12 +30,19 @@ export default {
   data() {
     return {
       userPasswordLength: 0,
+      password: '',
     };
   },
   methods: {
-    submitData() {
+    generatePassword() {
+      let choices =
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
+
       this.userPasswordLength = this.$refs.passwordLengthInput.value;
-      this.inputIsInvalid = true;
+      for (var i = 0; i < this.userPasswordLength; i++) {
+        let randomChoice = Math.floor(Math.random() * choices.length);
+        this.password += choices[randomChoice];
+      }
       return;
     },
   },
