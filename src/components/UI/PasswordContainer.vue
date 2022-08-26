@@ -22,13 +22,15 @@
       <button type="submit">Generate Password</button>
     </form>
   </div>
+  <saved-passwords :pastPasswords="savedPasswords"></saved-passwords>
 </template>
 <script>
+import SavedPasswords from '../SavedPasswords.vue';
 import PasswordOutput from './PasswordOutput.vue';
-
 export default {
   components: {
     PasswordOutput,
+    SavedPasswords
   },
   data() {
     return {
@@ -40,11 +42,6 @@ export default {
           password: 'lkjahsdf',
         },
       ],
-    };
-  },
-  provide() {
-    return {
-      saved: this.savedPasswords,
     };
   },
   methods: {

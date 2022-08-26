@@ -1,9 +1,10 @@
 <template>
-  <li>
+  <li >
 
-        <h3>{{ password }}</h3>
+        <h3 key="id">{{ password }}</h3>
 
   </li>
+
 </template>
 
 <script>

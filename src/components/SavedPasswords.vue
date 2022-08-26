@@ -1,20 +1,21 @@
 <template>
   <ul>
     <password-card
-      v-for="save in saved"
-      :key="save.id"
-      :password="save.password"
+      v-for="password in pastPasswords"
+      :key="password.id"
+      :password="password.password"
     ></password-card>
+
   </ul>
 </template>
 <script>
 import PasswordCard from './PasswordCard.vue';
 export default {
-  inject: ['saved'],
+  props: ['pastPasswords'],
   components: {
     PasswordCard,
-  },
-};
+  }
+}
 </script>
 <style scoped>
 ul {

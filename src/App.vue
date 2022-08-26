@@ -8,12 +8,12 @@
 <script>
 import TheHeader from './components/layouts/TheHeader.vue';
 import PasswordContainer from './components/UI/PasswordContainer.vue';
-import SavedPasswords from './components/SavedPasswords.vue';
+// import SavedPasswords from './components/SavedPasswords.vue';
 export default {
   components: {
     PasswordContainer,
     TheHeader,
-    SavedPasswords
+    // SavedPasswords
   }
 };
 </script>
