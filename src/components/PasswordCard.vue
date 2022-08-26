@@ -1,8 +1,8 @@
 <template>
   <li >
 
-        <h3 key="id">{{ password }}</h3>
-
+        <h3 key="id" >{{ password }}</h3>
+        <button @click="deletePassword(id)">Delete</button>
   </li>
 
 </template>
@@ -10,6 +10,7 @@
 <script>
 export default {
   props: ['id','password'],
+  inject: ['deletePassword']
 };
 </script>
 

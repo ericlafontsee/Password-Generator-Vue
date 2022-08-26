@@ -44,6 +44,11 @@ export default {
       ],
     };
   },
+  provide() {
+    return {
+      deletePassword: this.removePassword
+    };
+  },
   methods: {
     generatePassword() {
       let choices =
@@ -67,6 +72,10 @@ export default {
       this.savedPasswords.push(newPassword);
       console.log(this.savedPasswords);
     },
+        removePassword(pwID){
+       const pwIndex = this.savedPasswords.findIndex(pw => pw.id === pwID);
+       this.savedPasswords.splice(pwIndex, 1);
+    }
   },
 };
 </script>
