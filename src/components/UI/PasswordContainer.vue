@@ -39,7 +39,7 @@ export default {
       savedPasswords: [
         {
           id: 'test',
-          password: 'lkjahsdf',
+          password: 'Conversion1',
         },
       ],
     };
@@ -70,12 +70,22 @@ export default {
         password: this.password,
       };
       this.savedPasswords.push(newPassword);
-      console.log(this.savedPasswords);
+      fetch('https://password-generator-680b9-default-rtdb.firebaseio.com/passwords.json',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: newPassword.id,
+          password: newPassword.password
+        })
+      })
     },
         removePassword(pwID){
        const pwIndex = this.savedPasswords.findIndex(pw => pw.id === pwID);
        this.savedPasswords.splice(pwIndex, 1);
-    }
+    },
+
   },
 };
 </script>
