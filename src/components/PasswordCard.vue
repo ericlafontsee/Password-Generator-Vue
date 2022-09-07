@@ -2,15 +2,21 @@
   <li >
 
         <h3 key="id" >{{ password }}</h3>
-        <button @click="deletePassword(id)">Delete</button>
+        <button @click="$emit('deletePassword',id)">Delete</button>
   </li>
 
 </template>
 
 <script>
 export default {
-  props: ['id','password'],
-  inject: ['deletePassword']
+  props: ['id','password', 'removePassword'],
+  emits: ['deletePassword'],
+  methods: {
+    deletePassword(){
+      this.$emit('delete-password', this.id );
+    }
+  }
+
 };
 </script>
 

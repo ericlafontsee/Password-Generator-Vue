@@ -38,11 +38,7 @@ export default {
       password: '',
     };
   },
-  provide() {
-    return {
-      deletePassword: this.removePassword
-    };
-  },
+
   methods: {
     generatePassword() {
       let choices =
@@ -74,10 +70,10 @@ export default {
         })
       })
     },
-        removePassword(pwID){
-       const pwIndex = this.savedPasswords.findIndex(pw => pw.id === pwID);
-       this.savedPasswords.splice(pwIndex, 1);
-    },
+    //     removePassword(pwID){
+    //    const pwIndex = this.savedPasswords.findIndex(pw => pw.id === pwID);
+    //    this.savedPasswords.splice(pwIndex, 1);
+    // },
 
   },
 };
