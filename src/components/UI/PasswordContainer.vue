@@ -22,7 +22,7 @@
       <button type="submit">Generate Password</button>
     </form>
   </div>
-  <saved-passwords :pastPasswords="savedPasswords"></saved-passwords>
+  <saved-passwords></saved-passwords>
 </template>
 <script>
 import SavedPasswords from '../SavedPasswords.vue';
@@ -36,12 +36,6 @@ export default {
     return {
       userPasswordLength: 0,
       password: '',
-      savedPasswords: [
-        {
-          id: 'test',
-          password: 'Conversion1',
-        },
-      ],
     };
   },
   provide() {
@@ -69,7 +63,6 @@ export default {
         id: new Date().toISOString(),
         password: this.password,
       };
-      this.savedPasswords.push(newPassword);
       fetch('https://password-generator-680b9-default-rtdb.firebaseio.com/passwords.json',{
         method: 'POST',
         headers: {
