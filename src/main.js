@@ -1,10 +1,8 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import vuetify from './plugins/vuetify'
-import { loadFonts } from './plugins/webfontloader'
+import { createApp } from 'vue';
+import App from './App.vue';
+import TheHeader from './components/layouts/TheHeader.vue';
 
-loadFonts()
+const app = createApp(App);
+app.component('the-header', TheHeader);
 
-createApp(App)
-  .use(vuetify)
-  .mount('#app')
+app.mount('#app');
