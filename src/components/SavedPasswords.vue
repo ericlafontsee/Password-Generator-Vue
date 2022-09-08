@@ -42,7 +42,6 @@ export default {
         });
     },
     removePassword(pwID) {
-      console.log(pwID);
       let fetchURL =
         'https://password-generator-680b9-default-rtdb.firebaseio.com/passwords/' +
         pwID + '.json';
