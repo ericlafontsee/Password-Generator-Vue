@@ -7,6 +7,7 @@
       @save="savePassword"
     >
     </password-output>
+    <dialog></dialog>
     <form @submit.prevent="generatePassword" v-if="userPasswordLength === 0">
       <div class="form-control">
         <label for="passwordLength"
@@ -60,7 +61,7 @@
       <label for="numbers">{{numbersInput}}</label>
 </div>
 
-      <button type="submit">Generate Password</button>
+      <button type="submit btn-primary bg-primary">Generate Password</button>
     </form>
   </div>
   <saved-passwords></saved-passwords>
