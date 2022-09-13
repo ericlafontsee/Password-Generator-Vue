@@ -127,6 +127,10 @@ export default {
     },
     clearPassword() {
       this.userPasswordLength = 0;
+      this.userUppercaseInput = false;
+      this.userLowercaseInput = false;
+      this.specialCharInput = false;
+      this.numbersInput = false;
     },
     savePassword() {
       const newPassword = {
