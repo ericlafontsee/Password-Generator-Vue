@@ -1,5 +1,5 @@
 <template>
-  <ul>
+
     <password-card
       v-for="result in results"
       :key="result.id"
@@ -7,7 +7,7 @@
       :password="result.password"
       @delete-password="removePassword"
     ></password-card>
-  </ul>
+
 </template>
 <script>
 import PasswordCard from './PasswordCard.vue';

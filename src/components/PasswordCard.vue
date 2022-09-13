@@ -1,10 +1,14 @@
 <template>
-  <li >
 
-        <h3 key="id" >{{ password }}</h3>
+  <card
+  >
+    <card-text>
+      <h3 key="id" >{{ password }}</h3>
         <button @click="$emit('deletePassword',id)">Delete</button>
-  </li>
+    </card-text>
 
+    <button href="#" variant="primary">Go somewhere</button>
+  </card>
 </template>
 
 <script>

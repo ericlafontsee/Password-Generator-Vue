@@ -21,13 +21,16 @@
       </div>
       <div class="form-control">
       <div>Do you want upper case letters?</div>
+      <div class="d-flex flex-row">
       <input
+      class="w-25"
           id="uppercaseLetters"
           name="uppercaseLetters"
           type="checkbox"
           v-model="userUppercaseInput"
         />
       <label for="uppercaseLetters">{{userUppercaseInput}}</label>
+    </div>
 </div>
 <div class="form-control">
       <div>Do you want lower case letters?</div>
@@ -60,8 +63,11 @@
       <label for="numbers">{{numbersInput}}</label>
 </div>
 
-      <button type="submit">Generate Password</button>
+<button 
+  class="btn btn-success" type="submit">Generate Password</button>
+
     </form>
+    
   </div>
   <saved-passwords></saved-passwords>
 </template>
