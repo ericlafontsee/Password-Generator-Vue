@@ -4,6 +4,7 @@
     Saved Passwords
   </div>
   <ul class="list-group list-group-flush m-0" >
+    <!--Loops through the results object fetched from the db and creates a list of saved passwords-->
     <li  v-for="result in passwordResults"
       :key="result.id"
       :id="result.id"

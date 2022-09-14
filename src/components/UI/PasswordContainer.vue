@@ -1,5 +1,7 @@
 <template>
   <div id="passwordContainer">
+
+    <!--Displays the generated Password-->
     <password-output
       :password="password"
       v-if="showGeneratedPassword"
@@ -7,6 +9,8 @@
       @save="savePassword"
     >
     </password-output>
+
+    <!--Form to collect User's input on their password criteria-->
     <form @submit.prevent="generatePassword" v-if="showForm">
       <div class="mb-3">
         <label for="passwordLength" class="form-label"
@@ -75,6 +79,8 @@
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
+
+  <!--Displays a list of saved passwords stored on a DB-->
   <saved-passwords :passwordResults="results" @delete-password="removePassword"></saved-passwords>
 </template>
 <script>
@@ -100,6 +106,7 @@ export default {
   },
 
   methods: {
+    /*Invoked when user submits form - Generates their password based off criteria they select */ 
     generatePassword() {
       let upperAlpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       let upperAlphaArr = upperAlpha.split('');
@@ -111,6 +118,7 @@ export default {
       let symbolArr = symbols.split('');
       let availChars = [];
 
+      /*Checks that the user selected at least one criteria*/
       if (
         this.userUppercaseInput ||
         this.userLowercaseInput ||
@@ -145,6 +153,7 @@ export default {
         return;
       }
     },
+    /*Resets all criteria back to false and clears result*/
     clearPassword() {
       this.userPasswordLength = 0;
       this.userUppercaseInput = false;
@@ -155,6 +164,8 @@ export default {
       this.showForm = true;
       this.showGeneratedPassword = false;
     },
+
+    /*Saves user's password to DB and rerenders list */
     savePassword() {
       const newPassword = {
         id: new Date().toISOString(),
@@ -180,6 +191,8 @@ export default {
       });
       this.clearPassword();
     },
+
+    /*Deletes password from db and rerenders list */
     removePassword(pwID) {
       let fetchURL =
         'https://password-generator-680b9-default-rtdb.firebaseio.com/passwords/' +
@@ -193,6 +206,7 @@ export default {
         }
       });
     },
+    /*Loads the initial list of saved passwords from db */
     loadPasswords() {
       fetch(
         'https://password-generator-680b9-default-rtdb.firebaseio.com/passwords.json'
