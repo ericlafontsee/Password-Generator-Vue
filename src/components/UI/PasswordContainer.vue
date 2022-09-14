@@ -7,13 +7,11 @@
       @save="savePassword"
     >
     </password-output>
-
     <form @submit.prevent="generatePassword" v-if="showForm">
       <div class="mb-3">
         <label for="passwordLength" class="form-label"
           >How long do you want your password to be?</label
         >
-
         <input
           id="passwordLength"
           name="passwordLength"
@@ -77,7 +75,7 @@
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
-  <saved-passwords></saved-passwords>
+  <saved-passwords :passwordResults="results" @delete-password="removePassword"></saved-passwords>
 </template>
 <script>
 import SavedPasswords from '../SavedPasswords.vue';
@@ -97,6 +95,7 @@ export default {
       specialCharInput: false,
       numbersInput: false,
       password: '',
+      results: []
     };
   },
 
@@ -112,25 +111,26 @@ export default {
       let symbolArr = symbols.split('');
       let availChars = [];
 
-      if (this.userUppercaseInput || this.userLowercaseInput || this.specialCharInput || this.numbersInput ) {
+      if (
+        this.userUppercaseInput ||
+        this.userLowercaseInput ||
+        this.specialCharInput ||
+        this.numbersInput
+      ) {
         this.showForm = false;
 
         if (this.userUppercaseInput) {
           availChars.push.apply(availChars, upperAlphaArr);
-          console.log('uppercase', availChars);
         }
         if (this.userLowercaseInput) {
           availChars.push.apply(availChars, lowerAlphaArr);
-          console.log('lowercase', availChars);
         }
         if (this.specialCharInput) {
           availChars.push.apply(availChars, symbolArr);
-          console.log('special char', availChars);
         }
 
         if (this.numbersInput) {
           availChars.push.apply(availChars, numArr);
-          console.log('numbers', availChars);
         }
 
         for (var i = 0; i < this.userPasswordLength; i++) {
@@ -138,10 +138,10 @@ export default {
           this.password += availChars[randomChoice];
         }
         this.showGeneratedPassword = true;
-        this.userPasswordLength = null
+        this.userPasswordLength = null;
         return;
-      }else{
-        alert("Please Select Your Desired Characters!");
+      } else {
+        alert('Please Select Your Desired Characters!');
         return;
       }
     },
@@ -156,12 +156,11 @@ export default {
       this.showGeneratedPassword = false;
     },
     savePassword() {
-      this.showForm = true;
-      this.showGeneratedPassword = false;
       const newPassword = {
         id: new Date().toISOString(),
         password: this.password,
       };
+      console.log(newPassword);
       fetch(
         'https://password-generator-680b9-default-rtdb.firebaseio.com/passwords.json',
         {
@@ -174,8 +173,49 @@ export default {
             password: newPassword.password,
           }),
         }
-      );
+      ).then((response) => {
+        if (response.ok) {
+          this.loadPasswords();
+        }
+      });
+      this.clearPassword()
     },
+    removePassword(pwID) {
+      let fetchURL =
+        'https://password-generator-680b9-default-rtdb.firebaseio.com/passwords/' +
+        pwID +
+        '.json';
+      fetch(fetchURL, {
+        method: 'DELETE',
+      }).then((response) => {
+        if (response.ok) {
+          this.loadPasswords();
+        }
+      });
+    },
+    loadPasswords() {
+      fetch(
+        'https://password-generator-680b9-default-rtdb.firebaseio.com/passwords.json'
+      )
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then((data) => {
+          const results = [];
+          for (const id in data) {
+            results.push({ id: id, password: data[id].password });
+          }
+          this.results = results;
+        })
+        .catch((error) => {
+          console.log('ERROR:', error);
+        });
+    },
+  },
+  mounted() {
+    this.loadPasswords();
   },
 };
 </script>

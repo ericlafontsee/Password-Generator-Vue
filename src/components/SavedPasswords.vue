@@ -3,66 +3,33 @@
   <div class="card-header">
     Saved Passwords
   </div>
-  <ul class="list-group list-group-flush m-0">
-    <password-card
-      v-for="result in results"
+  <ul class="list-group list-group-flush m-0" >
+    <li  v-for="result in passwordResults"
       :key="result.id"
       :id="result.id"
       :password="result.password"
-      @delete-password="removePassword"
-    ></password-card>
+      @delete-password="removePassword"  class="list-group-item d-flex flex-row justify-content-between align-items-center m-0">
+      <h3>{{ result.password }}</h3>
+        <button class="btn btn-danger" type="submit" @click="$emit('deletePassword',result.id)">Delete</button>
+
+    </li>
+    
   </ul>
 </div>
-   
-
 </template>
+
 <script>
-import PasswordCard from './PasswordCard.vue';
 export default {
-  data() {
-    return {
-      results: [],
-    };
-  },
-  components: {
-    PasswordCard,
-  },
+  props: ['passwordResults'],
+  emits: ['deletePassword'],
   methods: {
-    loadPasswords() {
-      fetch(
-        'https://password-generator-680b9-default-rtdb.firebaseio.com/passwords.json'
-      )
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-        })
-        .then((data) => {
-          const results = [];
-          for (const id in data) {
-            results.push({ id: id, password: data[id].password });
-          }
-          this.results = results;
-        })
-        .catch((error) => {
-          console.log('ERROR:', error);
-        });
-    },
-    removePassword(pwID) {
-      console.log(pwID);
-      let fetchURL =
-        'https://password-generator-680b9-default-rtdb.firebaseio.com/passwords/' +
-        pwID + '.json';
-      fetch(fetchURL, {
-        method: 'DELETE',
-      });
-    },
-  },
-  mounted() {
-    this.loadPasswords();
+  deletePassword(){
+      this.$emit('delete-password', this.id );
+    }
   },
 };
 </script>
+
 <style scoped>
 ul {
   list-style: none;
@@ -70,5 +37,15 @@ ul {
   padding: 0;
   margin: auto;
   max-width: 40rem;
+}
+li {
+  margin: auto;
+  max-width: 40rem;
+}
+
+
+h3 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
 }
 </style>
