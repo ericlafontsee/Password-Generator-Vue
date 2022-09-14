@@ -2,13 +2,13 @@
   <div id="passwordContainer">
     <password-output
       :password="password"
-      v-if="userPasswordLength > 0"
+      v-if="showGeneratedPassword"
       @close="clearPassword"
       @save="savePassword"
     >
     </password-output>
 
-    <form @submit.prevent="generatePassword" v-if="userPasswordLength === 0">
+    <form @submit.prevent="generatePassword" v-if="showForm">
       <div class="mb-3">
         <label for="passwordLength" class="form-label"
           >How long do you want your password to be?</label
@@ -18,8 +18,9 @@
           id="passwordLength"
           name="passwordLength"
           type="text"
-          ref="passwordLengthInput"
+          v-model="userPasswordLength"
           class="form-control"
+          required
         />
       </div>
       <div class="mb-3">
@@ -88,7 +89,9 @@ export default {
   },
   data() {
     return {
-      userPasswordLength: 0,
+      showGeneratedPassword: false,
+      showForm: true,
+      userPasswordLength: null,
       userUppercaseInput: false,
       userLowercaseInput: false,
       specialCharInput: false,
@@ -108,36 +111,39 @@ export default {
       let symbols = '!#$%&()*+,-./:;<=>?@^[\\]^_`{|}~';
       let symbolArr = symbols.split('');
       let availChars = [];
-      this.userPasswordLength = this.$refs.passwordLengthInput.value;
 
-      if (this.userPasswordLength <= 0) {
-        alert('Please Enter A Number Greater Than 0!');
+      if (this.userUppercaseInput || this.userLowercaseInput || this.specialCharInput || this.numbersInput ) {
+        this.showForm = false;
+
+        if (this.userUppercaseInput) {
+          availChars.push.apply(availChars, upperAlphaArr);
+          console.log('uppercase', availChars);
+        }
+        if (this.userLowercaseInput) {
+          availChars.push.apply(availChars, lowerAlphaArr);
+          console.log('lowercase', availChars);
+        }
+        if (this.specialCharInput) {
+          availChars.push.apply(availChars, symbolArr);
+          console.log('special char', availChars);
+        }
+
+        if (this.numbersInput) {
+          availChars.push.apply(availChars, numArr);
+          console.log('numbers', availChars);
+        }
+
+        for (var i = 0; i < this.userPasswordLength; i++) {
+          let randomChoice = Math.floor(Math.random() * availChars.length);
+          this.password += availChars[randomChoice];
+        }
+        this.showGeneratedPassword = true;
+        this.userPasswordLength = null
+        return;
       }else{
-
-      if (this.userUppercaseInput) {
-        availChars.push.apply(availChars, upperAlphaArr);
-        console.log('uppercase', availChars);
+        alert("Please Select Your Desired Characters!");
+        return;
       }
-      if (this.userLowercaseInput) {
-        availChars.push.apply(availChars, lowerAlphaArr);
-        console.log('lowercase', availChars);
-      }
-      if (this.specialCharInput) {
-        availChars.push.apply(availChars, symbolArr);
-        console.log('special char', availChars);
-      }
-
-      if (this.numbersInput) {
-        availChars.push.apply(availChars, numArr);
-        console.log('numbers', availChars);
-      }
-
-      for (var i = 0; i < this.userPasswordLength; i++) {
-        let randomChoice = Math.floor(Math.random() * availChars.length);
-        this.password += availChars[randomChoice];
-      }
-      return;
-    }
     },
     clearPassword() {
       this.userPasswordLength = 0;
@@ -146,8 +152,12 @@ export default {
       this.specialCharInput = false;
       this.numbersInput = false;
       this.password = '';
+      this.showForm = true;
+      this.showGeneratedPassword = false;
     },
     savePassword() {
+      this.showForm = true;
+      this.showGeneratedPassword = false;
       const newPassword = {
         id: new Date().toISOString(),
         password: this.password,

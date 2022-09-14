@@ -1,8 +1,13 @@
 <template>
-<the-header title="Welcome to the Password Generator!"></the-header>
-<password-container>
-</password-container>
-<!-- <saved-passwords></saved-passwords> -->
+  <the-header title="Welcome to the Password Generator!"></the-header>
+
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-12 col-md-8">
+        <password-container> </password-container>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -12,7 +17,7 @@ export default {
   components: {
     PasswordContainer,
     TheHeader,
-  }
+  },
 };
 </script>
 <style >
