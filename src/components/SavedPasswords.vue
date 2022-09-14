@@ -1,5 +1,9 @@
 <template>
-
+<div class="card mx-auto" style="width: 20rem;">
+  <div class="card-header">
+    Saved Passwords
+  </div>
+  <ul class="list-group list-group-flush">
     <password-card
       v-for="result in results"
       :key="result.id"
@@ -7,6 +11,9 @@
       :password="result.password"
       @delete-password="removePassword"
     ></password-card>
+  </ul>
+</div>
+   
 
 </template>
 <script>

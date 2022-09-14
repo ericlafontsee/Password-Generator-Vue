@@ -7,67 +7,74 @@
       @save="savePassword"
     >
     </password-output>
+
     <form @submit.prevent="generatePassword" v-if="userPasswordLength === 0">
-      <div class="form-control">
-        <label for="passwordLength"
+      <div class="mb-3">
+        <label for="passwordLength" class="form-label"
           >How long do you want your password to be?</label
         >
+
         <input
           id="passwordLength"
           name="passwordLength"
           type="text"
           ref="passwordLengthInput"
+          class="form-control"
         />
       </div>
-      <div class="form-control">
-      <div>Do you want upper case letters?</div>
-      <div class="d-flex flex-row">
-      <input
-      class="w-25"
-          id="uppercaseLetters"
-          name="uppercaseLetters"
-          type="checkbox"
-          v-model="userUppercaseInput"
-        />
-      <label for="uppercaseLetters">{{userUppercaseInput}}</label>
-    </div>
-</div>
-<div class="form-control">
-      <div>Do you want lower case letters?</div>
-      <input
-          id="lowercaseLetters"
-          name="lowercaseLetters"
-          type="checkbox"
-          v-model="userLowercaseInput"
-        />
-      <label for="lowercaseLetters">{{userLowercaseInput}}</label>
-</div>
-<div class="form-control">
-      <div>Do you want any special characters?</div>
-      <input
-          id="specialChar"
-          name="specialChar"
-          type="checkbox"
-          v-model="specialCharInput"
-        />
-      <label for="specialChar">{{specialCharInput}}</label>
-</div>
-<div class="form-control">
-      <div>Do you want numbers?</div>
-      <input
-          id="numbers"
-          name="numbers"
-          type="checkbox"
-          v-model="numbersInput"
-        />
-      <label for="numbers">{{numbersInput}}</label>
-</div>
+      <div class="mb-3">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="uppercaseLetters"
+            name="uppercaseLetters"
+            v-model="userUppercaseInput"
+          />
+          <label class="form-check-label" for="uppercaseLetters">
+            Do you want upper case letters?
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            id="lowercaseLetters"
+            name="lowercaseLetters"
+            type="checkbox"
+            v-model="userLowercaseInput"
+          />
+          <label class="form-check-label" for="lowercaseLetters">
+            Do you want lower case letters?
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            id="specialChar"
+            name="specialChar"
+            type="checkbox"
+            v-model="specialCharInput"
+            class="form-check-input"
+          />
+          <label class="form-check-label" for="specialChar">
+            Do you want any special characters?
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            id="numbers"
+            name="numbers"
+            type="checkbox"
+            v-model="numbersInput"
+            class="form-check-input"
+          />
+          <label class="form-check-label" for="numbers">
+            Do you want numbers?
+          </label>
+        </div>
+      </div>
 
-<button 
-  class="btn btn-success" type="submit">Generate Password</button>
-
+      <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    
   </div>
   <saved-passwords></saved-passwords>
 </template>
@@ -92,8 +99,6 @@ export default {
 
   methods: {
     generatePassword() {
-      // let choices =
-      //   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
       let upperAlpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       let upperAlphaArr = upperAlpha.split('');
       let lowerAlpha = upperAlpha.toLowerCase();
@@ -103,26 +108,28 @@ export default {
       let symbols = '!#$%&()*+,-./:;<=>?@^[\\]^_`{|}~';
       let symbolArr = symbols.split('');
       let availChars = [];
-
       this.userPasswordLength = this.$refs.passwordLengthInput.value;
 
+      if (this.userPasswordLength <= 0) {
+        alert('Please Enter A Number Greater Than 0!');
+      }else{
 
-      if(this.userUppercaseInput){
+      if (this.userUppercaseInput) {
         availChars.push.apply(availChars, upperAlphaArr);
-        console.log("uppercase", availChars);
+        console.log('uppercase', availChars);
       }
-      if(this.userLowercaseInput){
+      if (this.userLowercaseInput) {
         availChars.push.apply(availChars, lowerAlphaArr);
-        console.log("lowercase", availChars);
+        console.log('lowercase', availChars);
       }
-      if(this.specialCharInput){
+      if (this.specialCharInput) {
         availChars.push.apply(availChars, symbolArr);
-        console.log("special char", availChars);
+        console.log('special char', availChars);
       }
 
-      if(this.numbersInput){
+      if (this.numbersInput) {
         availChars.push.apply(availChars, numArr);
-        console.log("numbers", availChars);
+        console.log('numbers', availChars);
       }
 
       for (var i = 0; i < this.userPasswordLength; i++) {
@@ -130,6 +137,7 @@ export default {
         this.password += availChars[randomChoice];
       }
       return;
+    }
     },
     clearPassword() {
       this.userPasswordLength = 0;
@@ -137,6 +145,7 @@ export default {
       this.userLowercaseInput = false;
       this.specialCharInput = false;
       this.numbersInput = false;
+      this.password = '';
     },
     savePassword() {
       const newPassword = {
@@ -157,10 +166,6 @@ export default {
         }
       );
     },
-    //     removePassword(pwID){
-    //    const pwIndex = this.savedPasswords.findIndex(pw => pw.id === pwID);
-    //    this.savedPasswords.splice(pwIndex, 1);
-    // },
   },
 };
 </script>
@@ -173,30 +178,5 @@ export default {
   padding: 1rem;
   margin: 2rem auto;
   max-width: 40rem;
-}
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-input,
-textarea {
-  display: block;
-  width: 100%;
-  font: inherit;
-  padding: 0.15rem;
-  border: 1px solid #ccc;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: #eee;
-  background-color: #eee;
-}
-
-.form-control {
-  margin: 1rem 0;
 }
 </style>

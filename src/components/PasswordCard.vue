@@ -1,14 +1,11 @@
 <template>
 
-  <card
-  >
-    <card-text>
+ <li class="list-group-item d-flex flex-row justify-content-between align-items-center m-0">
       <h3 key="id" >{{ password }}</h3>
-        <button @click="$emit('deletePassword',id)">Delete</button>
-    </card-text>
+        <button class="btn btn-danger" @click="$emit('deletePassword',id)">Delete</button>
 
-    <button href="#" variant="primary">Go somewhere</button>
-  </card>
+
+ </li>
 </template>
 
 <script>
