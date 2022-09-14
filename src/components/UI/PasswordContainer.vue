@@ -178,7 +178,7 @@ export default {
           this.loadPasswords();
         }
       });
-      this.clearPassword()
+      this.clearPassword();
     },
     removePassword(pwID) {
       let fetchURL =
